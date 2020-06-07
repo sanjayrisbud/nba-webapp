@@ -1,0 +1,63 @@
+  {{ tempPlayer | json }}
+
+  <table class="table table-sm table-hover">
+    <tr>
+        <td width="30%" align="center">
+          <img [src]="imgfile" height="200" width="250">
+          <input style="display: none" type="file" (change)="onFileChanged($event)" #fileInput 
+            name="picture" value="none"><br/>
+          <button (click)="fileInput.click()">Select Image</button>
+        </td>
+        <td width="70%" align="left">
+          <form #form="ngForm" novalidate (ngSubmit)="onSubmit()"> 
+            <div class="form-group">
+              <label>Name</label>
+              <input type="text" class="form-control" name="playername" 
+                  [(ngModel)]="tempPlayer.name" required #name="ngModel">
+              <small class="text-danger" [class.d-none]="name.valid || name.untouched">Name is required.</small>
+            </div>
+            <div class="form-group">
+              <label>Jersey #</label>
+              <input type="text" class="form-control" name="jersey" 
+                  [(ngModel)]="tempPlayer.jersey" required #jersey="ngModel" pattern="\d+">
+              <div *ngIf="jersey.errors && (jersey.invalid && jersey.touched)">
+                <small class="text-danger" *ngIf="jersey.errors.required">Jersey number is required.</small>
+                <small class="text-danger" *ngIf="jersey.errors.pattern">Must be a number.</small>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Position</label>
+              <select class="custom-select" name="position" [(ngModel)]="tempPlayer.position" #position="ngModel" (blur)="validateSelection('position', position.value)" (change)="validateSelection('position', position.value)">
+                <option value="-1">Select Position</option>
+                <option *ngFor="let position of positions">{{ position }}</option>
+              </select>
+              <small class="text-danger" [class.d-none]="validPosition || position.untouched">Position is required.</small>
+            </div>
+            <div class="form-group">
+              <label>Height</label>
+              <input type="text" class="form-control" name="height" [(ngModel)]="tempPlayer.height">
+              <label>Weight</label>
+              <input type="text" class="form-control" name="weight" [(ngModel)]="tempPlayer.weight">
+            </div>
+            <div class="form-group">
+              <label>Team</label>
+              <select class="custom-select" name="team" [(ngModel)]="tempPlayer.team" #team="ngModel" 
+                  (blur)="validateSelection('team', team.value)" (change)="validateSelection('team', team.value)">
+                <option value="-1">Select Team</option>
+                <option *ngFor="let team of teams" [value]="team.id">{{ team.city }} {{ team.name }}</option>
+              </select>
+              <small class="text-danger" [class.d-none]="validTeam || team.untouched">Team is required.</small>
+            </div>
+            <div class="form-group">
+              <label>NBA Profile</label>
+              <input type="text" class="form-control" name="profile" [(ngModel)]="tempPlayer.url">
+            </div>
+            <div class="form-group">
+              <input type="hidden" class="form-control" name="objectkey" [(ngModel)]="tempPlayer.objectKey">
+            </div>
+            <button class="btn btn-default" (click)="cancel()">Cancel</button>
+            <button class="btn btn-primary" type="submit" [disabled]="form.invalid || !validPosition || !validTeam">Submit</button>
+          </form>
+        </td>
+    </tr>
+  </table>

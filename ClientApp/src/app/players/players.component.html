@@ -1,0 +1,41 @@
+<p>
+  <a [routerLink]="['/player/add']" class="btn btn-primary float-right mb-3">New Player</a>
+</p>
+<app-team-view [currentTeam]="teamId"></app-team-view>
+
+<ng-container *ngIf="teamId != ''">
+  <h2>Roster</h2>
+  <div>
+    <mat-grid-list cols="4" rowHeight="2:1">
+      <mat-grid-tile *ngFor="let player of (players$ | async)">
+        <table>
+          <tr>
+            <td rowspan="3">
+              <img src="assets/rsrc/player/{{ player.headshot }}" height="75px" width="75px">
+            </td>
+            <td>
+              <table>
+                <tr>
+                  <td colspan="2"><a [routerLink]="['/player/', player.objectKey, 'team', player.team]">{{ player.name }}</a></td>
+                </tr>
+                <tr>
+                  <td colspan="2">#{{ player.jersey }}, {{ player.position }}</td>
+                </tr>
+                <tr>
+                  <td>
+                    <table>
+                      <tr>
+                        <td><a [routerLink]="['/player/edit/', player.objectKey]" class="btn btn-primary btn-sm float-right">Edit</a></td>
+                        <td><a [routerLink]="" (click)="delete(player.objectKey)" class="btn btn-danger btn-sm float-right">Delete</a></td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+        </mat-grid-tile>
+    </mat-grid-list>
+  </div>
+</ng-container>

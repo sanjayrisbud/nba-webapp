@@ -1,0 +1,17 @@
+<ng-container *ngIf="currentTeam != ''; else select">
+    <ng-container *ngIf="currentTeam != '-1'">
+        <ng-container *ngIf="(team$ | async) as team; else loading">
+            <table class="table table-sm table-hover">
+                <tr>
+                    <td width="30%" align="center"><img src="assets/rsrc/team/{{ team.logo }}"></td>
+                    <td align="left">
+                        <h6>{{ team.city }}</h6>
+                        <h1>{{ team.name }}</h1>
+                    </td>
+                </tr>
+            </table>
+        </ng-container>
+        <ng-template #loading>Loading…</ng-template>
+    </ng-container>
+</ng-container>
+<ng-template #select>Please select a team</ng-template>  

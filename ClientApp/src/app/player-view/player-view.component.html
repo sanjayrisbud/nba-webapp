@@ -1,0 +1,23 @@
+<app-team-view [currentTeam]="teamId"></app-team-view>
+<ng-container *ngIf="(player$ | async) as player; else loading">
+    
+    <table class="table table-sm table-hover">
+        <tr>
+            <td width="30%" align="center">
+                <img src="assets/rsrc/player/{{ player.headshot }}" height="200" width="250">
+            </td>
+            <td align="left">
+                <h1>{{ player.name }}</h1>
+                <h2>#{{ player.jersey }}, {{ player.position }}</h2>
+                <ul>
+                  <li>{{ player.height }}</li>
+                  <li>{{ player.weight }}</li>
+                  <li><a href="{{ player.url }}" target="_blank">NBA Profile</a></li>
+                </ul>
+            </td>
+        </tr>
+    </table>
+    <a [routerLink]="['/player/edit/', player.objectKey]" class="btn btn-primary btn-sm float-right">Edit</a>
+  </ng-container>
+  <ng-template #loading>Loading…</ng-template>
+  
