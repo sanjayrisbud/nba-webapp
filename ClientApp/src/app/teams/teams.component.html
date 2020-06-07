@@ -1,0 +1,8 @@
+<nav>
+  <table width="100%">
+    <tr *ngFor="let team of (teams$ | async)">
+      <td width="20%"><img src="assets/rsrc/team/{{ team.logo }}" height="25px" width="25px"></td>
+      <td><a [href]="'players/team/'+team.id">{{ team.city }} {{ team.name }}</a></td>
+    </tr>
+  </table>
+</nav>
